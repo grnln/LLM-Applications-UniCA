@@ -1,0 +1,266 @@
+@prefix :    <http://oscars2026.org#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# 98th Academy Awards (March 2026) — hand-built knowledge graph.
+# Designed to COMPLEMENT the plain-text corpus: the corpus describes the films
+# (plot, cast, production) and states NO outcomes. Every award result, count,
+# and milestone lives ONLY here, so the two sources genuinely complement each
+# other. Convention: a winner has :wonAward; a nominee who lost has :nominatedFor.
+
+:oscars2026 {
+
+# ---------------------------------------------------------------------------
+# Ceremony
+# ---------------------------------------------------------------------------
+:Oscars98
+    rdfs:label            "98th Academy Awards" ;
+    :ceremonyDate         "2026-03-15"^^xsd:date ;
+    :venue                "Dolby Theatre, Hollywood, Los Angeles" ;
+    :hostedBy             :ConanOBrien ;
+    :honorsFilmsFrom      "2025"^^xsd:gYear ;
+    :introducedNewCategory :BestCasting .
+
+:ConanOBrien
+    rdfs:label   "Conan O'Brien" ;
+    :hostingNote "hosted the Oscars for the second consecutive year" .
+
+:BestCasting
+    :milestone "first new competitive Oscar category since Best Animated Feature in 2001" .
+
+# ---------------------------------------------------------------------------
+# Films (descriptive metadata + relations)
+# ---------------------------------------------------------------------------
+:OneBattleAfterAnother
+    rdfs:label      "One Battle After Another" ;
+    :directedBy     :PaulThomasAnderson ;
+    :writtenBy      :PaulThomasAnderson ;
+    :starring       :LeonardoDiCaprio , :SeanPenn , :BenicioDelToro , :TeyanaTaylor , :ChaseInfiniti ;
+    :basedOn        "the novel Vineland by Thomas Pynchon" ;
+    :genre          "action drama" ;
+    :distributedBy  "Warner Bros." ;
+    :totalWins      "6"^^xsd:integer .
+
+:Sinners
+    rdfs:label      "Sinners" ;
+    :directedBy     :RyanCoogler ;
+    :writtenBy      :RyanCoogler ;
+    :starring       :MichaelBJordan , :WunmiMosaku , :DelroyLindo , :HaileeSteinfeld ;
+    :setting        "1932 Mississippi Delta" ;
+    :genre          "supernatural horror" ;
+    :distributedBy  "Warner Bros." ;
+    :totalWins      "4"^^xsd:integer ;
+    :totalNominations "16"^^xsd:integer ;
+    :recordNote     "set an all-time record with 16 nominations" .
+
+:Hamnet
+    rdfs:label      "Hamnet" ;
+    :directedBy     :ChloeZhao ;
+    :starring       :JessieBuckley , :PaulMescal ;
+    :basedOn        "the novel Hamnet by Maggie O'Farrell" ;
+    :genre          "historical drama" ;
+    :distributedBy  "Focus Features" ;
+    :totalWins      "1"^^xsd:integer .
+
+:Frankenstein
+    rdfs:label      "Frankenstein" ;
+    :directedBy     :GuillermoDelToro ;
+    :starring       :OscarIsaac , :JacobElordi , :MiaGoth ;
+    :basedOn        "the novel by Mary Shelley" ;
+    :genre          "gothic horror" ;
+    :distributedBy  "Netflix" ;
+    :totalWins      "3"^^xsd:integer .
+
+:SentimentalValue
+    rdfs:label      "Sentimental Value" ;
+    :directedBy     :JoachimTrier ;
+    :starring       :RenateReinsve , :StellanSkarsgard , :ElleFanning , :IngaIbsdotterLilleaas ;
+    :country        "Norway" ;
+    :language       "Norwegian" ;
+    :genre          "drama" ;
+    :totalWins      "1"^^xsd:integer ;
+    :milestone      "first Norwegian film to win Best International Feature" .
+
+:MartySupreme
+    rdfs:label      "Marty Supreme" ;
+    :directedBy     :JoshSafdie ;
+    :starring       :TimotheeChalamet ;
+    :subject        "table tennis" ;
+    :genre          "drama" ;
+    :distributedBy  "A24" ;
+    :totalNominations "9"^^xsd:integer ;
+    :totalWins      "0"^^xsd:integer .
+
+:Bugonia
+    rdfs:label      "Bugonia" ;
+    :directedBy     :YorgosLanthimos ;
+    :starring       :EmmaStone , :JessePlemons ;
+    :basedOn        "the South Korean film Save the Green Planet!" ;
+    :genre          "dark comedy thriller" .
+
+:Weapons
+    rdfs:label      "Weapons" ;
+    :directedBy     :ZachCregger ;
+    :starring       :AmyMadigan , :JuliaGarner , :JoshBrolin ;
+    :genre          "horror" ;
+    :totalWins      "1"^^xsd:integer .
+
+:KPopDemonHunters
+    rdfs:label      "KPop Demon Hunters" ;
+    :directedBy     :MaggieKang , :ChrisAppelhans ;
+    :genre          "animated musical" ;
+    :distributedBy  "Netflix" ;
+    :totalWins      "2"^^xsd:integer .
+
+:TheSecretAgent
+    rdfs:label      "The Secret Agent" ;
+    :directedBy     :KleberMendoncaFilho ;
+    :starring       :WagnerMoura ;
+    :country        "Brazil" ;
+    :setting        "Recife, 1977" ;
+    :language       "Portuguese" ;
+    :genre          "thriller" .
+
+:F1
+    rdfs:label      "F1" ;
+    :directedBy     :JosephKosinski ;
+    :starring       :BradPitt ;
+    :genre          "sports drama" .
+
+:TrainDreams
+    rdfs:label      "Train Dreams" ;
+    :directedBy     :ClintBentley ;
+    :basedOn        "the novella by Denis Johnson" ;
+    :distributedBy  "Netflix" .
+
+# ---------------------------------------------------------------------------
+# People (labels, characters played, career history)
+# ---------------------------------------------------------------------------
+:PaulThomasAnderson rdfs:label "Paul Thomas Anderson" ;
+    :careerNote "the 98th ceremony brought his first competitive Oscar wins after decades of nominations" .
+:RyanCoogler        rdfs:label "Ryan Coogler" ;
+    :longtimeCollaborator :MichaelBJordan , :LudwigGoransson .
+:ChloeZhao          rdfs:label "Chloé Zhao" ;
+    :previousOscar "won Best Director for Nomadland at the 93rd Academy Awards (2021)" .
+:GuillermoDelToro   rdfs:label "Guillermo del Toro" .
+:JoachimTrier       rdfs:label "Joachim Trier" .
+:JoshSafdie         rdfs:label "Josh Safdie" .
+:YorgosLanthimos    rdfs:label "Yorgos Lanthimos" .
+:ZachCregger        rdfs:label "Zach Cregger" .
+:MaggieKang         rdfs:label "Maggie Kang" .
+:ChrisAppelhans     rdfs:label "Chris Appelhans" .
+:KleberMendoncaFilho rdfs:label "Kleber Mendonça Filho" .
+:JosephKosinski     rdfs:label "Joseph Kosinski" .
+:ClintBentley       rdfs:label "Clint Bentley" .
+
+:MichaelBJordan     rdfs:label "Michael B. Jordan" ;
+    :playedCharacter "twin brothers Smoke and Stack in Sinners" ;
+    :milestone "sixth Black actor to win Best Actor" .
+:JessieBuckley      rdfs:label "Jessie Buckley" ;
+    :playedCharacter "Agnes Shakespeare in Hamnet" .
+:JacobElordi        rdfs:label "Jacob Elordi" ;
+    :playedCharacter "the Creature in Frankenstein" .
+:SeanPenn           rdfs:label "Sean Penn" .
+:AmyMadigan         rdfs:label "Amy Madigan" ;
+    :firstNomination "Best Supporting Actress for Twice in a Lifetime (1986)" ;
+    :milestone "longest gap ever between an Oscar nomination and a win" .
+
+:LeonardoDiCaprio   rdfs:label "Leonardo DiCaprio" .
+:BenicioDelToro     rdfs:label "Benicio del Toro" .
+:TeyanaTaylor       rdfs:label "Teyana Taylor" .
+:ChaseInfiniti      rdfs:label "Chase Infiniti" .
+:WunmiMosaku        rdfs:label "Wunmi Mosaku" .
+:DelroyLindo        rdfs:label "Delroy Lindo" .
+:HaileeSteinfeld    rdfs:label "Hailee Steinfeld" .
+:PaulMescal         rdfs:label "Paul Mescal" .
+:OscarIsaac         rdfs:label "Oscar Isaac" .
+:MiaGoth            rdfs:label "Mia Goth" .
+:RenateReinsve      rdfs:label "Renate Reinsve" .
+:StellanSkarsgard   rdfs:label "Stellan Skarsgård" .
+:ElleFanning        rdfs:label "Elle Fanning" .
+:IngaIbsdotterLilleaas rdfs:label "Inga Ibsdotter Lilleaas" .
+:TimotheeChalamet   rdfs:label "Timothée Chalamet" .
+:EmmaStone          rdfs:label "Emma Stone" .
+:JessePlemons       rdfs:label "Jesse Plemons" .
+:JuliaGarner        rdfs:label "Julia Garner" .
+:JoshBrolin         rdfs:label "Josh Brolin" .
+:WagnerMoura        rdfs:label "Wagner Moura" .
+:BradPitt           rdfs:label "Brad Pitt" .
+:EthanHawke         rdfs:label "Ethan Hawke" .
+:RoseByrne          rdfs:label "Rose Byrne" .
+:KateHudson         rdfs:label "Kate Hudson" .
+
+:LudwigGoransson    rdfs:label "Ludwig Göransson" ;
+    :composedScoreFor :Sinners ;
+    :previousOscars "won Best Original Score for Black Panther (2019) and Oppenheimer (2024)" .
+:AutumnDuraldArkapaw rdfs:label "Autumn Durald Arkapaw" ;
+    :cinematographerOf :Sinners ;
+    :milestone "first woman to win Best Cinematography" .
+:KateHawley         rdfs:label "Kate Hawley" ;
+    :costumeDesignerFor :Frankenstein .
+:CassandraKulukundis rdfs:label "Cassandra Kulukundis" ;
+    :castingDirectorFor :OneBattleAfterAnother .
+:MrNobodyAgainstPutin rdfs:label "Mr. Nobody Against Putin" ;
+    :type "documentary feature" .
+:Golden             rdfs:label "Golden" ;
+    :songFromFilm :KPopDemonHunters ;
+    :milestone "first K-pop song to win Best Original Song" .
+
+# ---------------------------------------------------------------------------
+# Awards WON
+# ---------------------------------------------------------------------------
+:OneBattleAfterAnother :wonAward :BestPicture .
+:PaulThomasAnderson    :wonAward :BestDirector , :BestAdaptedScreenplay .
+:MichaelBJordan        :wonAward :BestActor .
+:JessieBuckley         :wonAward :BestActress .
+:SeanPenn              :wonAward :BestSupportingActor .
+:AmyMadigan            :wonAward :BestSupportingActress .
+:RyanCoogler           :wonAward :BestOriginalScreenplay .
+:KPopDemonHunters      :wonAward :BestAnimatedFeature .
+:SentimentalValue      :wonAward :BestInternationalFeature .
+:MrNobodyAgainstPutin  :wonAward :BestDocumentaryFeature .
+:AutumnDuraldArkapaw   :wonAward :BestCinematography .
+:LudwigGoransson       :wonAward :BestOriginalScore .
+:Golden                :wonAward :BestOriginalSong .
+:KateHawley            :wonAward :BestCostumeDesign .
+:CassandraKulukundis   :wonAward :BestCasting .
+
+# ---------------------------------------------------------------------------
+# NOMINATED but did not win (major categories)
+# ---------------------------------------------------------------------------
+:Bugonia :nominatedFor :BestPicture .
+:F1 :nominatedFor :BestPicture .
+:Frankenstein :nominatedFor :BestPicture .
+:Hamnet :nominatedFor :BestPicture .
+:MartySupreme :nominatedFor :BestPicture .
+:TheSecretAgent :nominatedFor :BestPicture .
+:SentimentalValue :nominatedFor :BestPicture .
+:Sinners :nominatedFor :BestPicture .
+:TrainDreams :nominatedFor :BestPicture .
+
+:ChloeZhao :nominatedFor :BestDirector .
+:JoshSafdie :nominatedFor :BestDirector .
+:JoachimTrier :nominatedFor :BestDirector .
+:RyanCoogler :nominatedFor :BestDirector .
+
+:TimotheeChalamet :nominatedFor :BestActor .
+:LeonardoDiCaprio :nominatedFor :BestActor .
+:EthanHawke :nominatedFor :BestActor .
+:WagnerMoura :nominatedFor :BestActor .
+
+:RoseByrne :nominatedFor :BestActress .
+:KateHudson :nominatedFor :BestActress .
+:RenateReinsve :nominatedFor :BestActress .
+:EmmaStone :nominatedFor :BestActress .
+
+:BenicioDelToro :nominatedFor :BestSupportingActor .
+:JacobElordi :nominatedFor :BestSupportingActor .
+:DelroyLindo :nominatedFor :BestSupportingActor .
+:StellanSkarsgard :nominatedFor :BestSupportingActor .
+
+:ElleFanning :nominatedFor :BestSupportingActress .
+:IngaIbsdotterLilleaas :nominatedFor :BestSupportingActress .
+:WunmiMosaku :nominatedFor :BestSupportingActress .
+:TeyanaTaylor :nominatedFor :BestSupportingActress .
+
+}
