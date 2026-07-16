@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 import weaviate
@@ -18,9 +19,27 @@ EMBEDDING_MODEL = os.environ.get(
 )
 
 
-def read_chunks(path: Path) -> list[str]:
-    """One chunk per non-empty line."""
-    return [line.strip() for line in path.read_text().splitlines() if line.strip()]
+def read_chunks(path: Path, target_chars: int = 800) -> list[str]:
+    """Sentence-aware chunking.
+
+    Reconstructs hard-wrapped text into a single stream, splits on sentence
+    boundaries, and greedily packs sentences into chunks of ~target_chars.
+    Works for both prose documents and one-paragraph-per-line files.
+    """
+    lines = [l.strip() for l in path.read_text().splitlines() if l.strip()]
+    text = " ".join(lines)
+    sentences = re.split(r"(?<=[.!?])\s+", text)
+    chunks: list[str] = []
+    buf = ""
+    for s in sentences:
+        if buf and len(buf) + 1 + len(s) > target_chars:
+            chunks.append(buf.strip())
+            buf = s
+        else:
+            buf = f"{buf} {s}".strip()
+    if buf:
+        chunks.append(buf.strip())
+    return chunks
 
 
 def embed_all(chunks: list[str]) -> list[list[float]]:
