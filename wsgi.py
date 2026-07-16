@@ -1,15 +1,31 @@
 """Flask app: serves the chat UI on / and exposes both RAG endpoints."""
 import os
+from functools import lru_cache
 
 from flask import Flask, jsonify, render_template, request
 
 from src.graph_rag import build_chain, last_sparql
+from src.graph_rag import warmup as _graph_warmup
 from src.text_rag import ask as text_ask
+from src.text_rag import warmup as _text_warmup
 
 application = Flask(__name__, static_url_path='/static')
 
 # Build the Graph RAG chain once at boot so requests don't pay startup cost.
 _graph_chain = build_chain()
+
+# Preload the LLM into Ollama's memory + SentenceTransformer + Weaviate.
+# First real request is now warm instead of cold (saves ~5s on first hit).
+_graph_warmup()
+_text_warmup()
+
+
+@lru_cache(maxsize=128)
+def _run_graph(question: str) -> tuple[str, str | None]:
+    """Run the Graph RAG chain and return (answer, sparql). Cached per question."""
+    last_sparql.set(None)
+    result = _graph_chain.invoke({_graph_chain.input_key: question})
+    return result[_graph_chain.output_key], last_sparql.get()
 
 
 def _get_question() -> str:
@@ -36,16 +52,15 @@ def ask_graph():
     question = _get_question()
     if not question:
         return jsonify(error="missing 'question'"), 400
-    last_sparql.set(None)  # reset per-request
     try:
-        result = _graph_chain.invoke({_graph_chain.input_key: question})
+        answer, sparql = _run_graph(question)
     except Exception as exc:  # noqa: BLE001
         return jsonify(error=f'{type(exc).__name__}: {exc}'), 502
     return jsonify(
         mode='graph',
         question=question,
-        answer=result[_graph_chain.output_key],
-        sparql=last_sparql.get(),
+        answer=answer,
+        sparql=sparql,
     )
 
 

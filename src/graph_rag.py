@@ -192,7 +192,12 @@ class OllamaForSparql(ChatOllama):
 
 def plain_llm() -> ChatOllama:
     """Plain chat LLM — used by Text RAG for free-form answers."""
-    return ChatOllama(model=os.environ["OLLAMA_MODEL"], temperature=0)
+    return ChatOllama(
+        model=os.environ["OLLAMA_MODEL"],
+        temperature=0,
+        num_predict=512,   # cap output tokens (answers rarely need more)
+        num_ctx=8192,      # smaller context window than Qwen's 32k default
+    )
 
 
 @lru_cache(maxsize=1)
@@ -203,7 +208,12 @@ def build_chain() -> OntotextGraphDBQAChain:
                        f"/repositories/{os.environ['GRAPHDB_REPOSITORY']}",
         local_file=os.environ["GRAPHDB_ONTOLOGY_FILE"],
     )
-    llm = OllamaForSparql(model=os.environ["OLLAMA_MODEL"], temperature=0)
+    llm = OllamaForSparql(
+        model=os.environ["OLLAMA_MODEL"],
+        temperature=0,
+        num_predict=512,
+        num_ctx=8192,
+    )
     return OntotextGraphDBQAChain.from_llm(
         llm=llm,
         graph=graph,
@@ -213,10 +223,17 @@ def build_chain() -> OntotextGraphDBQAChain:
     )
 
 
+@lru_cache(maxsize=128)
 def ask(question: str) -> str:
-    """Answer a natural-language question using the knowledge graph."""
+    """Answer a natural-language question using the knowledge graph.
+    Cached: identical questions return the previous answer instantly."""
     chain = build_chain()
     return chain.invoke({chain.input_key: question})[chain.output_key]
+
+
+def warmup() -> None:
+    """Fire a tiny Ollama request so Qwen is loaded into memory before the first real query."""
+    plain_llm().invoke("hi")
 
 
 if __name__ == "__main__":

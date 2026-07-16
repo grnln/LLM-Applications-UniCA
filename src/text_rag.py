@@ -83,13 +83,21 @@ def retrieve(question: str, top_k: int = TOP_K) -> list[dict]:
     ]
 
 
+@lru_cache(maxsize=128)
 def ask(question: str) -> dict:
-    """Retrieve the best chunks and have the LLM answer using only them."""
+    """Retrieve the best chunks and have the LLM answer using only them.
+    Cached: identical questions return the previous answer instantly."""
     hits = retrieve(question)
     context = "\n\n".join(f"[doc_{h['chunk_id']}] {h['text']}" for h in hits)
     prompt = PROMPT_TEMPLATE.format(context=context, question=question)
     answer = plain_llm().invoke([HumanMessage(content=prompt)]).content
     return {"question": question, "answer": answer, "sources": hits}
+
+
+def warmup() -> None:
+    """Preload MiniLM into memory + touch Weaviate so the first query pays no cold-start."""
+    embedder().encode(["warmup"])
+    weaviate_client().collections.get(COLLECTION)
 
 
 if __name__ == "__main__":
