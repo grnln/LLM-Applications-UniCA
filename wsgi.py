@@ -79,6 +79,7 @@ def ask_text():
         question=question,
         answer=result['answer'],
         sources=result['sources'],
+        confidence=result.get('confidence'),
     )
 
 

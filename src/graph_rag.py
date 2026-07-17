@@ -116,9 +116,7 @@ Rules:
 - Base your answer strictly on the results. Do NOT use general knowledge.
 - If the results are empty (`[]`), say you don't have that information.
 - Answer in one clear, natural sentence.
-
 Examples:
-
 Results: [(rdflib.term.Literal('Ryan Coogler'),)]
 Question: Who directed Sinners?
 Answer: Ryan Coogler directed Sinners.

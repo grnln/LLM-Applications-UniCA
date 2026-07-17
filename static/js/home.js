@@ -32,6 +32,27 @@ function attachSparql(bubbleEl, sparql) {
     bubbleEl.appendChild(details);
 }
 
+/* Recolor the bubble and add a small confidence tag for Text RAG answers. */
+function markConfidence(bubbleEl, confidence) {
+    const tag = document.createElement('div');
+    tag.className = 'small mt-2 fw-bold';
+    if (confidence === 'abstain') {
+        bubbleEl.classList.remove('alert-light');
+        bubbleEl.classList.add('alert-danger');
+        tag.textContent = 'Abstained — retrieval was too weak to answer safely';
+    } else if (confidence === 'low') {
+        bubbleEl.classList.remove('alert-light');
+        bubbleEl.classList.add('alert-warning');
+        tag.textContent = 'Low confidence — no source citations in this answer';
+    } else if (confidence === 'high') {
+        tag.textContent = 'Grounded — answer cites retrieved passages';
+        tag.classList.add('text-success');
+    } else {
+        return;
+    }
+    bubbleEl.appendChild(tag);
+}
+
 async function submit() {
     const question = input.value.trim();
     if (!question) return;
@@ -52,6 +73,9 @@ async function submit() {
         reply.textContent = data.answer || data.error || '(no reply)';
         if (mode === 'graph' && data.sparql) {
             attachSparql(reply, data.sparql);
+        }
+        if (mode === 'text' && data.confidence) {
+            markConfidence(reply, data.confidence);
         }
     } catch (err) {
         reply.textContent = `Error: ${err.message}`;
