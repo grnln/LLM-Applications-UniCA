@@ -32,3 +32,4 @@ Desktop.ini
 build/
 dist/
 *.log
+ontology/.gitkeep
